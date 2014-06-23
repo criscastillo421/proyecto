@@ -1,0 +1,26 @@
+\section{Implementación}
+
+Se implementaron los algorítmos BFE y LCMFLOCK basados en el pseudo-código publicado por \cite{vieira2009line}  y \cite{romero2011mining} respectivamente,
+usando python version 3.
+
+\subsection{BFE}
+
+Este algoritmo se divide en dos partes: la primera parte, encontrar los discos que contienen el mayor número de puntos
+dado un radio ($\epsilon$) y un número mínimo de puntos ($\mu$) dentro de ese radio para instante de tiempo. La segunda parte: encontrar
+el número de puntos que se mueven juntos (flocks) en un tiempo mímimo ($\delta$).
+
+Para la primera parte es necesarios la utilización tanto de diccionarios de datos como
+estructuras kd-tree para la búsqueda del vecino más cercano, en esta implementación se uso la clase scipy.spatial.cKDTree de
+SciPy \footnote{Scipy es un ecosistema basado en Python, software de código abierto para las matemáticas, la ciencia y la ingeniería.
+\url{http://www.scipy.org/}} la cual proporciona  un índice dentro de un conjunto de puntos k-dimensionales que se pueden utilizar
+para buscar rápidamente los vecinos más cercanos de cualquier punto.
+
+\subsection{LCMFLOCK}
+
+Este algoritmo usa la primera parte del algoritmo de BFE que es encontrar los discos maximos, en la segunda parte para abordar el problema
+de combinatoria utiliza un enfonque de patron frecuente de mineria, en el cual se contruyo un diccionario de datos asociando la localizacion 
+de los puntos de cada trayectoria con su respectivo disco en orden para generar una version transaccional del conjunto de datos. Este conjunto
+es pasado como parametro junto con el umbral mínimo de soporte (min\_sup), para el algoritmo de LCM, disponible para descargar en \cite{FIMIHomep},
+ están disponibles dos variantes del programa; LCM\_max y LCM\_closed los cuales recuperarán el conjunto máximo o cerrado de los patrones de 
+ frecuencia, dependiendo del caso. La salida M es un archivo de texto sin formato, donde cada línea es un patrón máxima que 
+ contiene un conjunto de ID's de discos separados por espacios.
